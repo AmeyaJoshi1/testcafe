@@ -1,6 +1,6 @@
 FROM alpine:edge
 
-COPY docker/testcafe-docker.sh /opt/testcafe/docker/testcafe-docker.sh
+COPY testcafe-docker.sh /opt/testcafe/docker/testcafe-docker.sh
 
 ENV ALPINE_REPOS="\
  --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/\
@@ -21,7 +21,7 @@ RUN git clone https://github.com/AmeyaJoshi1/testcafe.git . && \
     npm install && \
     npm install testcafe-browser-provider-browserstack && \
     ./node_modules/.bin/gulp fast-build && \
-    chmod +x /bin/testcafe-with-v8-flag-filter.js && \
+    chmod +x /.bin/testcafe-with-v8-flag-filter.js && \
     chmod +x /opt/testcafe/docker/testcafe-docker.sh && \
     adduser -D user
 
