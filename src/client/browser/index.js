@@ -64,7 +64,7 @@ export function startHeartbeat (heartbeatUrl, createXHR) {
         sendXHR(heartbeatUrl, createXHR)
             .then(status => {
                 console.log(`${Date.now()} Staus for the heartbeat sent is ${status.code}`)
-                console.log(status);
+                console.log(JSON.stringify(status));
                 console.log(`Current location is : ${status.url} ${isCurrentLocation(status.url)}`);
                 if (status.code === HeartbeatStatus.closing && !isCurrentLocation(status.url)) {
                     stopInitScriptExecution();
