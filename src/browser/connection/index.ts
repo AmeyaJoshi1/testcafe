@@ -184,6 +184,8 @@ export default class BrowserConnection extends EventEmitter {
         catch (err) {
             // NOTE: A warning would be really nice here, but it can't be done while log is stored in a task.
         }
+
+        console.log(`${this.id} Browser closed`);
     }
 
     private _forceIdle (): void {
@@ -256,6 +258,8 @@ export default class BrowserConnection extends EventEmitter {
         Promise.race([ restartPromise, timeoutPromise ])
             .then(() => {
                 clearTimeout(timeout as NodeJS.Timeout);
+
+                console.log(`Is timeout expired: ${isTimeoutExpired}`);
 
                 if (isTimeoutExpired) {
                     console.log('Timeout is expired and disconnection error is being thrown');
