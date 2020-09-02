@@ -34,6 +34,7 @@ interface BrowserConnectionStatusResult {
 interface HeartbeatStatusResult {
     code: HeartbeatStatus;
     url: string;
+    connectionStatus?: string;
 }
 
 interface InitScript {
@@ -256,8 +257,10 @@ export default class BrowserConnection extends EventEmitter {
             .then(() => {
                 clearTimeout(timeout as NodeJS.Timeout);
 
-                if (isTimeoutExpired)
+                if (isTimeoutExpired) {
+                    console.log('Timeout is expired and disconnection error is being thrown');
                     this.emit('error', this._createBrowserDisconnectedError());
+                }
                 else
                     (resolveTimeout as Function)();
             });
@@ -397,7 +400,8 @@ export default class BrowserConnection extends EventEmitter {
 
         return {
             code: this.status === BrowserConnectionStatus.closing ? HeartbeatStatus.closing : HeartbeatStatus.ok,
-            url:  this.status === BrowserConnectionStatus.closing ? this.idleUrl : ''
+            url:  this.status === BrowserConnectionStatus.closing ? this.idleUrl : '',
+            connectionStatus: this.status
         };
     }
 
