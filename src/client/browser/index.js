@@ -63,7 +63,7 @@ function isCurrentLocation (url) {
 //API
 export function startHeartbeat (heartbeatUrl, createXHR) {
     function heartbeat () {
-        console.log(`${Date.now()} Sending heart beat for the url: ${heartbeatUrl} ${document.location.href}`);
+        console.log(`${new Date().toLocaleTimeString()} Sending heart beat for the url: ${heartbeatUrl} ${document.location.href}`);
         sendXHR(heartbeatUrl, createXHR, { isHeartBeat: true })
             .then(status => {
                 console.log(`${new Date().toLocaleTimeString()} Staus for the heartbeat sent is ${status.code}`)
