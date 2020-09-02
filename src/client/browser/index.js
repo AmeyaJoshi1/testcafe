@@ -34,7 +34,7 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, isHeartB
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 if (isHeartBeat) {
-                    console.log(JSON.stringify(xhr));
+                    console.log(`${new Date().toLocaleTimeString()} ${JSON.stringify(xhr)}`);
                 }
                 if (xhr.status === 200) {
                     let responseText = xhr.responseText || '';
@@ -63,10 +63,10 @@ function isCurrentLocation (url) {
 //API
 export function startHeartbeat (heartbeatUrl, createXHR) {
     function heartbeat () {
-        console.log(`${Date.now()} Sending heart beat for the url: ${heartbeatUrl}`);
+        console.log(`${Date.now()} Sending heart beat for the url: ${heartbeatUrl} ${document.location.href}`);
         sendXHR(heartbeatUrl, createXHR, { isHeartBeat: true })
             .then(status => {
-                console.log(`${Date.now()} Staus for the heartbeat sent is ${status.code}`)
+                console.log(`${new Date().toLocaleTimeString()} Staus for the heartbeat sent is ${status.code}`)
                 console.log(JSON.stringify(status));
                 console.log(`Current location is : ${status.url} ${isCurrentLocation(status.url)}`);
                 if (status.code === HeartbeatStatus.closing && !isCurrentLocation(status.url)) {
