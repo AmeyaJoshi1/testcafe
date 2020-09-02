@@ -66,7 +66,7 @@ export function startHeartbeat (heartbeatUrl, createXHR) {
         console.log(`${new Date().toLocaleTimeString()} Sending heart beat for the url: ${heartbeatUrl} ${document.location.href}`);
         sendXHR(heartbeatUrl, createXHR, { isHeartBeat: true })
             .then(status => {
-                console.log(`${new Date().toLocaleTimeString()} Staus for the heartbeat sent is ${status.code}`)
+                console.log(`${new Date().toLocaleTimeString()} Staus for the heartbeat sent is ${heartbeatUrl} ${status.code}`)
                 console.log(JSON.stringify(status));
                 console.log(`Current location is : ${status.url} ${isCurrentLocation(status.url)}`);
                 if (status.code === HeartbeatStatus.closing && !isCurrentLocation(status.url)) {
