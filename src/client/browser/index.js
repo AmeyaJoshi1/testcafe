@@ -20,7 +20,7 @@ const FETCH_PAGE_TO_CACHE_RETRY_COUNT = 5;
 //Utils
 // NOTE: the window.XMLHttpRequest may have been wrapped by Hammerhead, while we should send a request to
 // the original URL. That's why we need the XMLHttpRequest argument to send the request via native methods.
-export function sendXHR (url, createXHR, { method = 'GET', data = null, parseResponse = true } = {}) {
+export function sendXHR (url, createXHR, { method = 'GET', data = null, isHeartBeat = false, parseResponse = true } = {}) {
     return new Promise((resolve, reject) => {
         const xhr = createXHR();
 
@@ -33,6 +33,9 @@ export function sendXHR (url, createXHR, { method = 'GET', data = null, parseRes
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
+                if (isHeartBeat) {
+                    console.log(JSON.stringify(xhr));
+                }
                 if (xhr.status === 200) {
                     let responseText = xhr.responseText || '';
 
@@ -61,7 +64,7 @@ function isCurrentLocation (url) {
 export function startHeartbeat (heartbeatUrl, createXHR) {
     function heartbeat () {
         console.log(`${Date.now()} Sending heart beat for the url: ${heartbeatUrl}`);
-        sendXHR(heartbeatUrl, createXHR)
+        sendXHR(heartbeatUrl, createXHR, { isHeartBeat: true })
             .then(status => {
                 console.log(`${Date.now()} Staus for the heartbeat sent is ${status.code}`)
                 console.log(JSON.stringify(status));
